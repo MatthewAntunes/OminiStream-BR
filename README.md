@@ -1,39 +1,48 @@
-# Nuvio Plugin / Provider Template
+# OmniStream BR 🚀
 
-Este projeto é um template pronto para desenvolvimento de **Plugins/Providers nativos para o Nuvio Desktop**.
+Addon Multi-Provedor Nativo de Filmes e Séries para **Nuvio Desktop**.
 
-## 📁 Estrutura do Projeto
-
-- `manifest.json`: Manifesto do repositório/plugin registrado no Nuvio.
-- `src/index.js`: Código-fonte do seu plugin/provedor onde fica a lógica de busca e extração de links de vídeo (HLS / MP4).
-- `build.js`: Script de bundle via `esbuild` focado na compatibilidade com o motor JavaScript Hermes do Nuvio.
-- `dist/plugin.js`: Arquivo final gerado após o build.
+O **OmniStream BR** reúne automaticamente múltiplos servidores e provedores de alta velocidade em um único lugar, trazendo opções de reprodução nativas em 1080p, Dublado e Legendado.
 
 ---
 
-## 🚀 Como Desenvolver
+## 📌 Link de Instalação Direta no Nuvio Desktop
 
-### 1. Instalar as dependências
-```bash
-npm install
-```
+Cole o link abaixo diretamente na aba de **Addons / Plugins** no seu **Nuvio Desktop**:
 
-### 2. Gerar o arquivo compilado (Build)
-```bash
-npm run build
+```text
+https://raw.githubusercontent.com/MatthewAntunes/OminiStream-BR/refs/heads/main/manifest.json
 ```
-
-### 3. Iniciar o servidor local de testes
-```bash
-npm run serve
-```
-O servidor estará rodando em: `http://localhost:3000/manifest.json`
 
 ---
 
-## 🧪 Testando no Nuvio Desktop
+## ⚡ Provedores & Servidores Suportados
 
-1. Abra o app **Nuvio Desktop**.
-2. Vá até **Configurações > Plugins** (ou **Developer Settings > Plugin Tester**).
-3. Adicione a URL do seu manifesto local: `http://localhost:3000/manifest.json` (ou substitua pelo IP da máquina local se testar na rede local).
-4. Abra qualquer filme/série e verifique se as fontes do seu plugin aparecem no reprodutor.
+- 🎬 **RedeFlix:** Links 1080p Dublado e Legendado
+- 🍿 **MegaEmbed:** Servidores 1, 2, 3 e 4 (HLS & MP4)
+- 📺 **VIP Player & WatchPlayer:** Servidor 1 e Servidor 2 HD (EmbedMovies)
+- ⚡ **FSHD:** Servidor Fsplay 1080p
+- 🌐 **Peachify:** Múltiplos espelhos e opções de legendas
+
+---
+
+## 💻 Rodando Localmente
+
+1. **Instalar dependências:**
+   ```bash
+   npm install
+   ```
+
+2. **Iniciar o servidor:**
+   ```bash
+   npm start
+   ```
+   O servidor estará ativo localmente em `http://localhost:3000/manifest.json`.
+
+---
+
+## 🙏 Créditos e Agradecimentos
+
+Agradecimentos especiais a **Saimuel** pelo excelente trabalho inicial de extração nos provedores bases através do repositório público:
+👉 **[saimuelrepo (SaimuelBR)](https://github.com/saimuelbr/saimuelrepo)**
+
