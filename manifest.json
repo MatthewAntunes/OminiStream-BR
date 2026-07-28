@@ -1,0 +1,9 @@
+{
+  "id": "org.nuvioplugin.omnistream.br",
+  "version": "1.0.0",
+  "name": "OmniStream BR",
+  "description": "Addon Multi-Provedor Nativo de Filmes e Séries para Nuvio Desktop (RedeFlix, MegaEmbed, FSHD, VIP Player, WatchPlayer e Peachify)",
+  "resources": ["stream"],
+  "types": ["movie", "series"],
+  "catalogs": []
+}

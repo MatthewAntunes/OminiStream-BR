@@ -1,0 +1,28 @@
+{
+  "name": "omnistream-br",
+  "version": "1.0.0",
+  "description": "OmniStream BR - Addon Multi-Provedor Nativo de Filmes e Séries para Nuvio Desktop",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "npx nodemon server.js"
+  },
+  "keywords": [
+    "nuvio",
+    "stremio",
+    "addon",
+    "stream"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "puppeteer": "^25.4.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
+  },
+  "devDependencies": {
+    "electron": "^43.2.0"
+  }
+}
