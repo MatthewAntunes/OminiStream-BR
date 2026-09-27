@@ -6,6 +6,7 @@ const https = require('https');
 // Carrega os provedores atualizados diretamente
 const megaembedProvider = require('./providers/megaembed');
 const redeflixProvider = require('./providers/redeflix');
+const fshdProvider = require('./providers/fshd');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -127,7 +128,10 @@ app.get(['/stream/:type/:id.json', '/stream/:type/:id'], async (req, res) => {
       .catch(err => { console.error('MegaEmbed err:', err.message); return []; }),
     redeflixProvider.getStreams(tmdbNumericId, repoType, season, episode)
       .then(res => { console.log('RedeFlix found:', res?.length); return res; })
-      .catch(err => { console.error('RedeFlix err:', err.message); return []; })
+      .catch(err => { console.error('RedeFlix err:', err.message); return []; }),
+    fshdProvider.getStreams(tmdbNumericId, repoType, season, episode)
+      .then(res => { console.log('FSHD found:', res?.length); return res; })
+      .catch(err => { console.error('FSHD err:', err.message); return []; })
   ];
 
   const results = await Promise.allSettled(promises);
