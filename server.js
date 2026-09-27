@@ -134,6 +134,19 @@ app.get(['/stream/:type/:id.json', '/stream/:type/:id'], async (req, res) => {
     }
   }
 
+  const hasMegaEmbed = allRawStreams.some(s => s && (s.provider === 'megaembed' || s.name === 'MegaEmbed'));
+  if (!hasMegaEmbed && tmdbNumericId) {
+    const embedUrl = repoType === 'tv'
+      ? `https://d1muf25xa07so8hp28a.megaembed.com/embed/tv/${tmdbNumericId}/${season}/${episode}`
+      : `https://d1muf25xa07so8hp28a.megaembed.com/embed/${tmdbNumericId}`;
+
+    streams.push({
+      name: "MegaEmbed",
+      title: "MegaEmbed Player (Web / Multilanguage)",
+      externalUrl: embedUrl
+    });
+  }
+
   console.log(`⚡ [RESPOSTA NUVIO] Retornando ${streams.length} opção(ões) de stream.`);
   res.json({ streams });
 });
