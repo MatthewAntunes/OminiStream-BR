@@ -3,10 +3,9 @@ const cors = require('cors');
 const path = require('path');
 const https = require('https');
 
-// Carrega os provedores atualizados
-let megaembedProvider, redeflixProvider;
-try { megaembedProvider = require(path.join(__dirname, 'providers', 'megaembed.js')); } catch (e) {}
-try { redeflixProvider = require(path.join(__dirname, 'providers', 'redeflix.js')); } catch (e) {}
+// Carrega os provedores atualizados diretamente
+const megaembedProvider = require('./providers/megaembed');
+const redeflixProvider = require('./providers/redeflix');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
