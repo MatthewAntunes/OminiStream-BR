@@ -6,9 +6,11 @@
 async function getStreams(tmdbId, type = 'movie', season = 1, episode = 1) {
   try {
     const isTv = type === 'tv' || type === 'series';
-    const embedUrl = isTv
-      ? `https://d1muf25xa07so8hp28a.megaembed.com/embed/tv/${tmdbId}/${season}/${episode}`
-      : `https://d1muf25xa07so8hp28a.megaembed.com/embed/${tmdbId}`;
+    const domains = [
+      'https://embed.megaembed.com',
+      'https://player.megaembed.com',
+      'https://d1muf25xa07so8hp28a.megaembed.com'
+    ];
 
     const headers = {
       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -17,21 +19,35 @@ async function getStreams(tmdbId, type = 'movie', season = 1, episode = 1) {
       'Origin': 'https://megaembed.com'
     };
 
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 15000);
+    let html = '';
+    let finalUrl = '';
 
-    const res = await fetch(embedUrl, { headers, signal: controller.signal });
-    clearTimeout(timeout);
+    for (const base of domains) {
+      const embedUrl = isTv
+        ? `${base}/embed/tv/${tmdbId}/${season}/${episode}`
+        : `${base}/embed/${tmdbId}`;
 
-    console.log(`[MegaEmbed] URL: ${embedUrl} | Status: ${res.status}`);
-    if (!res.ok) {
-      console.warn(`[MegaEmbed] Failed with status ${res.status}`);
-      return [];
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 7000);
+
+        const res = await fetch(embedUrl, { headers, signal: controller.signal });
+        clearTimeout(timeout);
+
+        if (res.ok) {
+          const body = await res.text();
+          if (body && body.includes('var sources =')) {
+            html = body;
+            finalUrl = res.url || embedUrl;
+            break;
+          }
+        }
+      } catch (err) {
+        // Tenta o próximo espelho
+      }
     }
 
-    const finalUrl = res.url || embedUrl;
-    const html = await res.text();
-    console.log(`[MegaEmbed] Received HTML length: ${html.length}`);
+    if (!html) return [];
 
     const sourcesMatch = html.match(/var sources = (\[[\s\S]*?\]);/);
     if (!sourcesMatch) return [];

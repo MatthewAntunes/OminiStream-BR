@@ -38,7 +38,7 @@ app.get('/manifest.json', (req, res) => {
 
 app.get('/debug', async (req, res) => {
   const tmdbId = 1396;
-  const embedUrl = `https://d1muf25xa07so8hp28a.megaembed.com/embed/tv/${tmdbId}/1/1`;
+  const embedUrl = `https://embed.megaembed.com/embed/tv/${tmdbId}/1/1`;
   const headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -56,7 +56,7 @@ app.get('/debug', async (req, res) => {
       headers: Object.fromEntries(r.headers.entries()),
       bodyLength: text.length,
       hasSources: !!sourcesMatch,
-      preview: text.slice(0, 500)
+      sourcesCount: sourcesMatch ? JSON.parse(sourcesMatch[1]).length : 0
     });
   } catch (err) {
     res.status(500).json({ error: err.message, stack: err.stack });
