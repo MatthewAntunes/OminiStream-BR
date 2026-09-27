@@ -96,8 +96,8 @@ app.get(['/stream/:type/:id.json', '/stream/:type/:id'], async (req, res) => {
   const allRawStreams = [];
 
   const promises = [
-    withTimeout(megaembedProvider?.getStreams ? megaembedProvider.getStreams(tmdbNumericId, repoType, season, episode).catch(() => []) : Promise.resolve([]), 3500),
-    withTimeout(redeflixProvider?.getStreams ? redeflixProvider.getStreams(tmdbNumericId, repoType, season, episode).catch(() => []) : Promise.resolve([]), 3500)
+    withTimeout(megaembedProvider?.getStreams ? megaembedProvider.getStreams(tmdbNumericId, repoType, season, episode).catch(() => []) : Promise.resolve([]), 6500),
+    withTimeout(redeflixProvider?.getStreams ? redeflixProvider.getStreams(tmdbNumericId, repoType, season, episode).catch(() => []) : Promise.resolve([]), 6500)
   ];
 
   const results = await Promise.allSettled(promises);
