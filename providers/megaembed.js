@@ -23,10 +23,15 @@ async function getStreams(tmdbId, type = 'movie', season = 1, episode = 1) {
     const res = await fetch(embedUrl, { headers, signal: controller.signal });
     clearTimeout(timeout);
 
-    if (!res.ok) return [];
+    console.log(`[MegaEmbed] URL: ${embedUrl} | Status: ${res.status}`);
+    if (!res.ok) {
+      console.warn(`[MegaEmbed] Failed with status ${res.status}`);
+      return [];
+    }
 
     const finalUrl = res.url || embedUrl;
     const html = await res.text();
+    console.log(`[MegaEmbed] Received HTML length: ${html.length}`);
 
     const sourcesMatch = html.match(/var sources = (\[[\s\S]*?\]);/);
     if (!sourcesMatch) return [];
@@ -59,6 +64,7 @@ async function getStreams(tmdbId, type = 'movie', season = 1, episode = 1) {
 
     return streams;
   } catch (e) {
+    console.error('[MegaEmbed] Extraction error:', e.message);
     return [];
   }
 }
