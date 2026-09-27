@@ -1,30 +1,14 @@
 {
-  "name": "OmniStream-BR",
-  "version": "1.1.0",
-  "scrapers": [
-    {
-      "id": "megaembed",
-      "name": "MegaEmbed",
-      "description": "MegaEmbed - Filmes e Séries HD / Full HD",
-      "version": "1.0.0",
-      "author": "MatthewAntunes",
-      "supportedTypes": ["movie", "tv"],
-      "filename": "providers/megaembed.js",
-      "enabled": true,
-      "formats": ["m3u8", "mp4"],
-      "contentLanguage": ["pt"]
-    },
-    {
-      "id": "redeflix",
-      "name": "RedeFlix",
-      "description": "RedeFlix - Filmes e Séries 1080p Dublado",
-      "version": "2.0.0",
-      "author": "MatthewAntunes",
-      "supportedTypes": ["movie", "tv"],
-      "filename": "providers/redeflix.js",
-      "enabled": true,
-      "formats": ["mp4"],
-      "contentLanguage": ["pt"]
-    }
-  ]
+  "id": "org.nuvioplugin.omnistream.br",
+  "version": "1.0.0",
+  "name": "OmniStream BR",
+  "description": "Addon Multi-Provedor Nativo de Filmes e Séries para Nuvio Desktop (RedeFlix, MegaEmbed, FSHD e Peachify)",
+  "resources": [
+    "stream"
+  ],
+  "types": [
+    "movie",
+    "series"
+  ],
+  "catalogs": []
 }
