@@ -44,7 +44,8 @@ app.get('/test-worker', async (req, res) => {
       timeMs: Date.now() - t0,
       status: r.status,
       sourcesCount: data?.sources?.length || 0,
-      rawBody: text.slice(0, 500)
+      errorMsg: data?.error,
+      rawBody: text
     });
   } catch (err) {
     res.status(500).json({ timeMs: Date.now() - t0, error: err.message, stack: err.stack });
