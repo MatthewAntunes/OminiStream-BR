@@ -13,10 +13,15 @@ async function getStreams(tmdbId, type = 'movie', season = 1, episode = 1) {
     const res = await fetch(workerUrl, { signal: controller.signal });
     clearTimeout(timeout);
 
-    if (!res.ok) return [];
+    if (!res.ok) {
+      return [{ name: 'MegaEmbed', title: 'MegaEmbed HTTP Error: ' + res.status, url: 'http://debug/http_' + res.status }];
+    }
 
     const data = await res.json();
     const sources = data?.sources || [];
+    if (sources.length === 0) {
+      return [{ name: 'MegaEmbed', title: 'MegaEmbed Empty Sources: ' + JSON.stringify(data), url: 'http://debug/empty' }];
+    }
     const streams = [];
 
     for (let i = 0; i < sources.length; i++) {
