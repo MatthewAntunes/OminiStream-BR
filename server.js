@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 // Manifest do Addon Stremio / Nuvio
 const manifest = {
   id: "org.nuvioplugin.omnistream.br",
-  version: "1.0.0",
+  version: "1.1.0",
   name: "OmniStream BR",
   description: "Addon Multi-Provedor Nativo de Filmes e Séries para Nuvio Desktop (RedeFlix, MegaEmbed HD)",
   resources: ["stream"],
