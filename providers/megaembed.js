@@ -39,7 +39,7 @@ async function getStreams(tmdbId, type = 'movie', season = 1, episode = 1) {
 
     return streams;
   } catch (e) {
-    return [];
+    return [{ name: 'MegaEmbed', title: 'MegaEmbed Debug: ' + e.message, url: 'http://debug/' + encodeURIComponent(e.message) }];
   }
 }
 
