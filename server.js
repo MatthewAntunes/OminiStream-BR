@@ -39,13 +39,22 @@ app.get('/manifest.json', (req, res) => {
 
 app.get('/test-mega', async (req, res) => {
   try {
-    const embedUrl = 'https://d1muf25xa07so8hp28a.megaembed.com/embed/tv/1396/1/1';
+    const embedUrl = 'https://megaembed.com/embed/1396/1/1';
     const r = await fetch(embedUrl, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:150.0) Gecko/20100101 Firefox/150.0',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'Referer': 'https://megaembed.com/',
-        'Origin': 'https://megaembed.com'
+        'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
+        'Sec-GPC': '1',
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1',
+        'Sec-Fetch-Dest': 'document',
+        'Sec-Fetch-Mode': 'navigate',
+        'Sec-Fetch-Site': 'none',
+        'Sec-Fetch-User': '?1',
+        'DNT': '1',
+        'Priority': 'u=0, i',
+        'TE': 'trailers'
       }
     });
     const text = await r.text();
@@ -55,7 +64,8 @@ app.get('/test-mega', async (req, res) => {
       statusText: r.statusText,
       url: r.url,
       hasSources: !!sourcesMatch,
-      bodyExcerpt: text.slice(0, 500)
+      sourcesLength: sourcesMatch ? JSON.parse(sourcesMatch[1]).length : 0,
+      bodyExcerpt: text.slice(0, 300)
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
