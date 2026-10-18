@@ -5,32 +5,18 @@
 async function getStreams(tmdbId, type = 'movie', season = 1, episode = 1) {
   try {
     const isTv = (type === 'tv' || type === 'series');
-    const embedUrl = isTv
-      ? `https://d1muf25xa07so8hp28a.megaembed.com/embed/tv/${tmdbId}/${season}/${episode}`
-      : `https://d1muf25xa07so8hp28a.megaembed.com/embed/${tmdbId}`;
-
-    const headers = {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-      'Referer': 'https://megaembed.com/',
-      'Origin': 'https://megaembed.com'
-    };
+    const workerUrl = `https://megaembed-relay.mateusantunesdarosa.workers.dev/?id=${tmdbId}&type=${isTv ? 'tv' : 'movie'}&s=${season}&e=${episode}`;
 
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 12000);
+    const timeout = setTimeout(() => controller.abort(), 25000);
 
-    const res = await fetch(embedUrl, { headers, signal: controller.signal });
+    const res = await fetch(workerUrl, { signal: controller.signal });
     clearTimeout(timeout);
 
     if (!res.ok) return [];
 
-    const finalUrl = res.url || embedUrl;
-    const html = await res.text();
-
-    const sourcesMatch = html.match(/var sources = (\[[\s\S]*?\]);/);
-    if (!sourcesMatch) return [];
-
-    const sources = JSON.parse(sourcesMatch[1]);
+    const data = await res.json();
+    const sources = data?.sources || [];
     const streams = [];
 
     for (let i = 0; i < sources.length; i++) {
@@ -47,12 +33,7 @@ async function getStreams(tmdbId, type = 'movie', season = 1, episode = 1) {
         quality: 1080,
         type: isHls ? 'hls' : 'mp4',
         group: label,
-        provider: 'megaembed',
-        headers: {
-          'User-Agent': headers['User-Agent'],
-          'Referer': finalUrl,
-          'Origin': finalUrl
-        }
+        provider: 'megaembed'
       });
     }
 

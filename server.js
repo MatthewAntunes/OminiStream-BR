@@ -37,40 +37,6 @@ app.get('/manifest.json', (req, res) => {
   res.json(manifest);
 });
 
-app.get('/test-mega', async (req, res) => {
-  try {
-    const embedUrl = 'https://megaembed.com/embed/1396/1/1';
-    const r = await fetch(embedUrl, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:150.0) Gecko/20100101 Firefox/150.0',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
-        'Sec-GPC': '1',
-        'Connection': 'keep-alive',
-        'Upgrade-Insecure-Requests': '1',
-        'Sec-Fetch-Dest': 'document',
-        'Sec-Fetch-Mode': 'navigate',
-        'Sec-Fetch-Site': 'none',
-        'Sec-Fetch-User': '?1',
-        'DNT': '1',
-        'Priority': 'u=0, i',
-        'TE': 'trailers'
-      }
-    });
-    const text = await r.text();
-    const sourcesMatch = text.match(/var sources = (\[[\s\S]*?\]);/);
-    res.json({
-      status: r.status,
-      statusText: r.statusText,
-      url: r.url,
-      hasSources: !!sourcesMatch,
-      sourcesLength: sourcesMatch ? JSON.parse(sourcesMatch[1]).length : 0,
-      bodyExcerpt: text.slice(0, 300)
-    });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
 
 /**
  * Converte IMDb ID -> TMDB ID usando Cinemeta
