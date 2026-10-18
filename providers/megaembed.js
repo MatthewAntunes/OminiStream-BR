@@ -1,6 +1,5 @@
 /**
- * MegaEmbed Direct Extractor with exact browser fingerprint headers
- * Returns instant streams without probe delays.
+ * MegaEmbed Fast & Direct Native Stream Extractor for Nuvio Player
  */
 
 async function getStreams(tmdbId, type = 'movie', season = 1, episode = 1) {
@@ -10,28 +9,15 @@ async function getStreams(tmdbId, type = 'movie', season = 1, episode = 1) {
       ? `https://d1muf25xa07so8hp28a.megaembed.com/embed/tv/${tmdbId}/${season}/${episode}`
       : `https://d1muf25xa07so8hp28a.megaembed.com/embed/${tmdbId}`;
 
-    const ua = 'Mozilla/5.0 (X11; Linux x86_64; rv:150.0) Gecko/20100101 Firefox/150.0';
-    const referer = isTv
-      ? `https://megaembed.com/embed/${tmdbId}/${season}/${episode}`
-      : `https://megaembed.com/embed/${tmdbId}`;
-
     const headers = {
-      'User-Agent': ua,
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-      'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
-      'Referer': referer,
-      'Origin': 'https://megaembed.com',
-      'DNT': '1',
-      'Upgrade-Insecure-Requests': '1',
-      'Sec-Fetch-Dest': 'document',
-      'Sec-Fetch-Mode': 'navigate',
-      'Sec-Fetch-Site': 'same-site',
-      'Sec-Fetch-User': '?1',
-      'TE': 'trailers'
+      'Referer': 'https://megaembed.com/',
+      'Origin': 'https://megaembed.com'
     };
 
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 6000);
+    const timeout = setTimeout(() => controller.abort(), 12000);
 
     const res = await fetch(embedUrl, { headers, signal: controller.signal });
     clearTimeout(timeout);
@@ -63,7 +49,7 @@ async function getStreams(tmdbId, type = 'movie', season = 1, episode = 1) {
         group: label,
         provider: 'megaembed',
         headers: {
-          'User-Agent': ua,
+          'User-Agent': headers['User-Agent'],
           'Referer': finalUrl,
           'Origin': finalUrl
         }
