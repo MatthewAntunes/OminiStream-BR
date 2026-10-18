@@ -20,7 +20,7 @@ async function getStreams(tmdbId, type = 'movie', season = 1, episode = 1) {
     const data = await res.json();
     const sources = data?.sources || [];
     if (sources.length === 0) {
-      return [{ name: 'MegaEmbed', title: 'MegaEmbed Empty Sources: ' + JSON.stringify(data), url: 'http://debug/empty' }];
+      return [{ name: 'MegaEmbed', title: 'MegaEmbed Info: ' + (data?.htmlSnippet || data?.error || 'Empty'), url: 'http://debug/empty' }];
     }
     const streams = [];
 
