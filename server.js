@@ -37,12 +37,14 @@ app.get('/test-worker', async (req, res) => {
   const t0 = Date.now();
   try {
     const r = await fetch('https://megaembed-relay.mateusantunesdarosa.workers.dev/?id=550&type=movie');
-    const data = await r.json();
+    const text = await r.text();
+    let data;
+    try { data = JSON.parse(text); } catch(e) {}
     res.json({
       timeMs: Date.now() - t0,
       status: r.status,
       sourcesCount: data?.sources?.length || 0,
-      sourcesSample: data?.sources?.[0]
+      rawBody: text.slice(0, 500)
     });
   } catch (err) {
     res.status(500).json({ timeMs: Date.now() - t0, error: err.message, stack: err.stack });
