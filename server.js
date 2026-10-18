@@ -37,6 +37,31 @@ app.get('/manifest.json', (req, res) => {
   res.json(manifest);
 });
 
+app.get('/test-mega', async (req, res) => {
+  try {
+    const embedUrl = 'https://d1muf25xa07so8hp28a.megaembed.com/embed/tv/1396/1/1';
+    const r = await fetch(embedUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Referer': 'https://megaembed.com/',
+        'Origin': 'https://megaembed.com'
+      }
+    });
+    const text = await r.text();
+    const sourcesMatch = text.match(/var sources = (\[[\s\S]*?\]);/);
+    res.json({
+      status: r.status,
+      statusText: r.statusText,
+      url: r.url,
+      hasSources: !!sourcesMatch,
+      bodyExcerpt: text.slice(0, 500)
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 /**
  * Converte IMDb ID -> TMDB ID usando Cinemeta
  */
