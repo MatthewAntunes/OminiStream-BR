@@ -13,15 +13,11 @@ async function getStreams(tmdbId, type = 'movie', season = 1, episode = 1) {
     const res = await fetch(workerUrl, { signal: controller.signal });
     clearTimeout(timeout);
 
-    if (!res.ok) {
-      return [{ name: 'MegaEmbed', title: 'MegaEmbed HTTP Error: ' + res.status, url: 'http://debug/http_' + res.status }];
-    }
+    if (!res.ok) return [];
 
     const data = await res.json();
     const sources = data?.sources || [];
-    if (sources.length === 0) {
-      return [{ name: 'MegaEmbed', title: 'MegaEmbed Info: ' + (data?.htmlSnippet || data?.error || 'Empty'), url: 'http://debug/empty' }];
-    }
+    if (sources.length === 0) return [];
     const streams = [];
 
     for (let i = 0; i < sources.length; i++) {
@@ -44,7 +40,7 @@ async function getStreams(tmdbId, type = 'movie', season = 1, episode = 1) {
 
     return streams;
   } catch (e) {
-    return [{ name: 'MegaEmbed', title: 'MegaEmbed Debug: ' + e.message, url: 'http://debug/' + encodeURIComponent(e.message) }];
+    return [];
   }
 }
 
