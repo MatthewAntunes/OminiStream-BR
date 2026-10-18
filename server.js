@@ -33,8 +33,20 @@ app.get('/', (req, res) => {
   res.json(manifest);
 });
 
-app.get('/manifest.json', (req, res) => {
-  res.json(manifest);
+app.get('/test-worker', async (req, res) => {
+  const t0 = Date.now();
+  try {
+    const r = await fetch('https://megaembed-relay.mateusantunesdarosa.workers.dev/?id=550&type=movie');
+    const data = await r.json();
+    res.json({
+      timeMs: Date.now() - t0,
+      status: r.status,
+      sourcesCount: data?.sources?.length || 0,
+      sourcesSample: data?.sources?.[0]
+    });
+  } catch (err) {
+    res.status(500).json({ timeMs: Date.now() - t0, error: err.message, stack: err.stack });
+  }
 });
 
 
