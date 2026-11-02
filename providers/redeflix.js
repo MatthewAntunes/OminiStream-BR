@@ -7,8 +7,8 @@ async function getStreams(tmdbId, type = 'movie', season = 1, episode = 1) {
   try {
     const isTv = type === 'tv' || type === 'series';
     const pageUrl = isTv 
-      ? `https://redeflixapi.store/serie/${tmdbId}/${season}/${episode}`
-      : `https://redeflixapi.store/filme/${tmdbId}`;
+      ? `https://redeflixapi.bar/serie/${tmdbId}/${season}/${episode}`
+      : `https://redeflixapi.bar/filme/${tmdbId}`;
 
     const ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 
@@ -21,14 +21,14 @@ async function getStreams(tmdbId, type = 'movie', season = 1, episode = 1) {
     if (!ticketMatch) return [];
 
     const ticket = ticketMatch[1];
-    const resolveRes = await fetch('https://redeflixapi.store/playback-resolve.php', {
+    const resolveRes = await fetch('https://redeflixapi.bar/playback-resolve.php', {
       method: 'POST',
       headers: {
         'User-Agent': ua,
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'X-Requested-With': 'RedeFlixPlayer',
-        'Origin': 'https://redeflixapi.store',
+        'Origin': 'https://redeflixapi.bar',
         'Referer': pageUrl
       },
       body: JSON.stringify({ ticket: ticket, server: 'default' })
@@ -37,7 +37,7 @@ async function getStreams(tmdbId, type = 'movie', season = 1, episode = 1) {
     const resData = await resolveRes.json();
     if (!resData.launchTicket) return [];
 
-    const playerUrl = `https://redeflixapi.store/playerkys/index.php?v=20260627-6&launch=${encodeURIComponent(resData.launchTicket)}&embed=${encodeURIComponent(pageUrl)}`;
+    const playerUrl = `https://redeflixapi.bar/playerkys/index.php?v=20260627-6&launch=${encodeURIComponent(resData.launchTicket)}&embed=${encodeURIComponent(pageUrl)}`;
     const playerRes = await fetch(playerUrl, {
       headers: {
         'User-Agent': ua,
@@ -63,8 +63,8 @@ async function getStreams(tmdbId, type = 'movie', season = 1, episode = 1) {
       provider: 'redeflix',
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-        'Referer': 'https://redeflixapi.store/playerkys/index.php',
-        'Origin': 'https://redeflixapi.store'
+        'Referer': 'https://redeflixapi.bar/playerkys/index.php',
+        'Origin': 'https://redeflixapi.bar'
       }
     }];
   } catch (e) {
